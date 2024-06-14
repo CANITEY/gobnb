@@ -3,7 +3,14 @@ module gobnb
 go 1.22.3
 
 require (
-	github.com/labstack/echo/v4 v4.12.0 // indirect
+	github.com/MadAppGang/httplog/echolog v1.3.0
+	github.com/labstack/echo/v4 v4.12.0
+)
+
+require (
+	github.com/MadAppGang/httplog v1.3.0 // indirect
+	github.com/TylerBrock/colorjson v0.0.0-20200706003622-8a50f05110d2 // indirect
+	github.com/fatih/color v1.13.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
