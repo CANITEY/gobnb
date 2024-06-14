@@ -1,0 +1,14 @@
+{{define "base"}}
+<html>
+  <head>
+    <title>goBNB</title>
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    Hello world from htmx
+    <div hx-get="/hello" hx-swap="scroll:top" hx-trigger="click[ctrlKey]">
+      [Here Mouse, Mouse!]
+    </div>
+  </body>
+</html>
+{{end}}
