@@ -11,14 +11,14 @@ type DB struct {
 	*sql.DB
 }
 
-func NewDB(username, password, hostname, databasename string) (*sql.DB, error) {
+func NewDB(username, password, hostname, databasename string) (*DB, error) {
 	connQuery := fmt.Sprintf("postgresql://%v:%v@%v/%v?sslmode=disable", username, password, hostname, databasename)
 	db, err := sql.Open("postgres", connQuery)
 	if err != nil {
 		return nil, err
 	}
 
-	return db, nil
+	return &DB{db}, nil
 }
 
 func (d *DB) Initialize() (error) {
