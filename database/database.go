@@ -35,6 +35,7 @@ func (d *DB) Initialize() (error) {
 	if _, err := d.Exec(`CREATE TABLE IF NOT EXIST apartments(
 	id SERIAL PRIMARY KEY,
 	title varchar(25),
+	address varchar,
 	description varchar,
 	price numeric(7, 2),
 	rental bool,
