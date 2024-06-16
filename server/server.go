@@ -1,10 +1,13 @@
 package server
 
 import (
+	"database/sql"
+	"gobnb/database"
 	"html/template"
-	"github.com/labstack/echo/v4"
-	"github.com/MadAppGang/httplog/echolog"
 	"io"
+
+	"github.com/MadAppGang/httplog/echolog"
+	"github.com/labstack/echo/v4"
 )
 
 type Template struct {
@@ -19,12 +22,19 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 type Server struct {
 	s *echo.Echo
 	address string
+	d *sql.DB
 }
 
 func NewServer(address string) *Server {
+	db, err := database.NewDB("gobnb", "gobnb", "localhost", "gobnb")
+	if err != nil {
+		panic(err.Error())
+	}
+
 	return &Server{
 		echo.New(),
 		address,
+		db,
 	}
 }
 
@@ -51,7 +61,9 @@ func (s *Server) PublicRoutes() {
 	})
 
 	s.s.GET("/apartments", func(c echo.Context) error {
-		return c.Render(200, "apartments", nil)
+		if c.QueryParam("q") == "" {
+			return c.Render(200, "apartments", nil)
+		}
 	})
 }
 
