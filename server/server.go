@@ -1,7 +1,9 @@
 package server
 
 import (
+	"fmt"
 	"gobnb/database"
+	"gobnb/models"
 	"html/template"
 	"io"
 
@@ -60,10 +62,26 @@ func (s *Server) PublicRoutes() {
 	})
 
 	s.s.GET("/apartments", func(c echo.Context) error {
-		if c.QueryParam("q") == "" {
-			return c.Render(200, "apartments", nil)
+		query := c.QueryParam("q")
+		apartments := []models.Apartment{}
+		err := fmt.Errorf("")
+
+		if query == "" {
+			apartments, err = s.d.GetApartments()
+		} else {
+			apartments, err = s.d.SearchApartment(query)
 		}
+
+		if err != nil {
+			return echo.NewHTTPError(500, fmt.Sprintf("error: %v", err))
+		}
+
+		return c.Render(200, "apartments", apartments)
 	})
+
+	// s.s.GET("/apartments/:id", func(c echo.Context) error {
+
+	// })
 }
 
 func (s *Server) StartAndServe() error {
