@@ -26,6 +26,7 @@ func (d *DB) Initialize() (error) {
 	id SERIAL PRIMARY KEY,
 	name varchar(25),
 	email varchar(30),
+	password varchar(30),
 	phone varchar(15)
 `); err != nil {
 		return err
