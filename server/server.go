@@ -22,7 +22,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 type Server struct {
 	s *echo.Echo
 	address string
-	d *sql.DB
+	d *database.DB
 }
 
 func NewServer(address string) *Server {
