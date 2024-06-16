@@ -1,7 +1,6 @@
 package server
 
 import (
-	"database/sql"
 	"gobnb/database"
 	"html/template"
 	"io"
@@ -68,5 +67,6 @@ func (s *Server) PublicRoutes() {
 }
 
 func (s *Server) StartAndServe() error {
+	s.d.Initialize()
 	return s.s.Start(s.address)
 }
