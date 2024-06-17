@@ -43,7 +43,7 @@ func (s *Server) UseMiddleWare(middleware ...echo.MiddlewareFunc) {
 	s.s.Use(middleware...)
 }
 
-func (s *Server) Init() {
+func (s *Server) init() {
 	t := &Template{
 		templates: template.Must(template.ParseGlob("web/*.tmpl")),
 	}
@@ -86,5 +86,6 @@ func (s *Server) PublicRoutes() {
 
 func (s *Server) StartAndServe() error {
 	s.d.Initialize()
+	s.init()
 	return s.s.Start(s.address)
 }
