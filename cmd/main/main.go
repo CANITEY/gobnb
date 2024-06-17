@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	_ "gobnb/server"
+	"gobnb/server"
 	"log"
 	_ "github.com/lib/pq"
 )
@@ -15,5 +15,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	s := server.NewServer(":8888")
+	s.Init()
+	if err := s.StartAndServe(); err != nil {
+		panic(err)
+	}
 	db.Close()
+
 }

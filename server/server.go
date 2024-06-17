@@ -79,9 +79,9 @@ func (s *Server) PublicRoutes() {
 		return c.Render(200, "apartments", apartments)
 	})
 
-	// s.s.GET("/apartments/:id", func(c echo.Context) error {
-
-	// })
+	s.s.GET("/apartments/:id", func(c echo.Context) error {
+		return c.Render(200, "apartment", nil)
+	})
 }
 
 func (s *Server) StartAndServe() error {
