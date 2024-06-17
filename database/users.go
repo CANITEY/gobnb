@@ -1,7 +1,10 @@
 package database
 
 import (
+	"fmt"
 	"gobnb/models"
+
+	"github.com/go-passwd/validator"
 )
 
 func (d *DB) GetUserInfo(id int) (models.User, error) {
@@ -14,3 +17,23 @@ func (d *DB) GetUserInfo(id int) (models.User, error) {
 	return *user, nil
 }
 
+func (d *DB) CreateUser(user models.User) error {
+
+	if err := validator.New(
+		validator.CommonPassword(fmt.Errorf("This password is common")),
+		validator.ContainsAtLeast("*,.!'\"+-@#$%^&(){}/", 1, fmt.Errorf("Password lack of special characters add atleast one of these *,.!'\"+-@#$%%^&(){}/")),
+		validator.MinLength(8, fmt.Errorf("Password is too short at least 8 digits")),
+	).Validate(user.Password);
+
+	err != nil {
+		return err
+	}
+
+	if _, err := d.Exec("INSERT INTO users(name, email, phone, password) VALUES(?, ?, ?, ?)", user.Name, user.Email, user.Phone, user.Password);
+
+	err != nil {
+		return err
+	}
+
+	return nil
+}
