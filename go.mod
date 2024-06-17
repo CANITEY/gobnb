@@ -4,7 +4,9 @@ go 1.22.3
 
 require (
 	github.com/MadAppGang/httplog/echolog v1.3.0
+	github.com/go-passwd/validator v0.0.0-20180902184246-0b4c967e436b
 	github.com/labstack/echo/v4 v4.12.0
+	github.com/lib/pq v1.10.9
 )
 
 require (
