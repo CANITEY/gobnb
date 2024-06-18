@@ -3,22 +3,22 @@ package database
 import "gobnb/models"
 
 func (d *DB) GetApartments() ([]models.Apartment, error) {
-	rows, err := d.Query("SELECT id, title, address, price, rental, availabe from apartments")
+	rows, err := d.Query("SELECT id, title, address, price, rental, availabe from apartments;")
 	if err != nil {
 		return nil, err
 	}
 
-	apartments := make([]models.Apartment, 0)
+	apartments := []models.Apartment{}
 
 	for rows.Next() {
 		apartment := new(models.Apartment)
 		rows.Scan(
-			apartment.Id,
-			apartment.Title,
-			apartment.Address,
-			apartment.Price,
-			apartment.Rental,
-			apartment.Available,
+			&apartment.Id,
+			&apartment.Title,
+			&apartment.Address,
+			&apartment.Price,
+			&apartment.Rental,
+			&apartment.Available,
 		)
 
 		apartments = append(apartments, *apartment)
@@ -28,7 +28,7 @@ func (d *DB) GetApartments() ([]models.Apartment, error) {
 }
 
 func (d *DB) GetApartment(id int) (apartment models.Apartment, err error) {
-	row := d.QueryRow("SELECT id, title, address, description, price, rental, availabe from apartments where id=?", id)
+	row := d.QueryRow("SELECT id, title, address, description, price, rental, availabe from apartments WHERE id=$1", id)
 	err = row.Scan(
 		&apartment.Id,
 		&apartment.Title,
@@ -42,7 +42,7 @@ func (d *DB) GetApartment(id int) (apartment models.Apartment, err error) {
 }
 
 func (d *DB) SearchApartment(term string) ([]models.Apartment, error) {
-	rows, err := d.Query("SELECT id, title, address, price, rental, availabe where title like %?%", term)
+	rows, err := d.Query("SELECT id, title, address, price, rental, availabe from apartments where title like %?%", term)
 	if err != nil {
 		return nil, err
 	}
