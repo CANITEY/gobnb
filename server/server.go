@@ -6,10 +6,14 @@ import (
 	"gobnb/models"
 	"html/template"
 	"io"
+	"strconv"
 
 	"github.com/MadAppGang/httplog/echolog"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/gommon/log"
 )
+
 
 type Template struct {
 	templates *template.Template
@@ -21,7 +25,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 
 
 type Server struct {
-	s *echo.Echo
+	S *echo.Echo
 	address string
 	d *database.DB
 }
@@ -40,47 +44,66 @@ func NewServer(address string) *Server {
 }
 
 func (s *Server) UseMiddleWare(middleware ...echo.MiddlewareFunc) {
-	s.s.Use(middleware...)
+	s.S.Use(middleware...)
 }
 
 func (s *Server) init() {
 	t := &Template{
 		templates: template.Must(template.ParseGlob("web/*.tmpl")),
 	}
-	s.s.Renderer = t
+	s.S.Renderer = t
+	s.S.Logger.SetLevel(log.INFO)
 	s.UseMiddleWare(echolog.Logger())
+	s.UseMiddleWare(middleware.Logger())
+	s.UseMiddleWare(middleware.Recover())
 	s.PublicRoutes()
 }
 
 func (s *Server) PublicRoutes() {
-	s.s.GET("/", func(c echo.Context) error {
+	s.S.GET("/", func(c echo.Context) error {
 		return c.Render(200, "base", nil)
 	})
 
-	s.s.GET("/login", func(c echo.Context) error {
+	s.S.GET("/login", func(c echo.Context) error {
 		return c.Render(200, "login", nil)
 	})
 
-	s.s.GET("/apartments", func(c echo.Context) error {
+	s.S.GET("/apartments", func(c echo.Context) error {
 		query := c.QueryParam("q")
 		apartments := []models.Apartment{}
-		err := fmt.Errorf("")
-
 		if query == "" {
-			apartments, err = s.d.GetApartments()
+			data, err := s.d.GetApartments()
+			apartments = append(apartments, data...)
+			if err != nil {
+				return echo.NewHTTPError(500, fmt.Sprintf("error: %v", err))
+			}
 		} else {
-			apartments, err = s.d.SearchApartment(query)
+			data, err := s.d.SearchApartment(query)
+			apartments = append(apartments, data...)
+			if err != nil {
+				return echo.NewHTTPError(500, fmt.Sprintf("error: %v", err))
+			}
 		}
 
-		if err != nil {
-			return echo.NewHTTPError(500, fmt.Sprintf("error: %v", err))
+		data := struct {
+		Apartments []models.Apartment
+		}{
+			Apartments: apartments,
 		}
-
-		return c.Render(200, "apartments", apartments)
+		fmt.Println(apartments)
+		return c.Render(200, "apartments", data)
 	})
 
-	s.s.GET("/apartments/:id", func(c echo.Context) error {
-		return c.Render(200, "apartment", nil)
+	s.S.GET("/apartments/:id", func(c echo.Context) error {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			return err
+		}
+		info, err := s.d.GetApartment(id)
+		if err != nil {
+			return err
+		}
+		return c.Render(200, "apartment", info)
 	})
 }
 
@@ -89,5 +112,5 @@ func (s *Server) StartAndServe() error {
 		return err
 	}
 	s.init()
-	return s.s.Start(s.address)
+	return s.S.Start(s.address)
 }

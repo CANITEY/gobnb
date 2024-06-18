@@ -16,9 +16,6 @@ func main() {
 		log.Fatal(err.Error())
 	}
 	s := server.NewServer(":8888")
-	if err := s.StartAndServe(); err != nil {
-		log.Fatal(err)
-	}
+	s.S.Logger.Debug(s.StartAndServe())
 	db.Close()
-
 }
