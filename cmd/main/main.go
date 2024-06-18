@@ -17,7 +17,7 @@ func main() {
 	}
 	s := server.NewServer(":8888")
 	if err := s.StartAndServe(); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	db.Close()
 

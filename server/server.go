@@ -85,7 +85,9 @@ func (s *Server) PublicRoutes() {
 }
 
 func (s *Server) StartAndServe() error {
-	s.d.Initialize()
+	if err := s.d.Initialize(); err != nil {
+		return err
+	}
 	s.init()
 	return s.s.Start(s.address)
 }
