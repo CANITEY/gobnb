@@ -22,17 +22,17 @@ func NewDB(username, password, hostname, databasename string) (*DB, error) {
 }
 
 func (d *DB) Initialize() (error) {
-	if _, err := d.Exec(`CREATE TABLE IF NOT EXIST users(
+	if _, err := d.Exec(`CREATE TABLE IF NOT EXISTS users(
 	id SERIAL PRIMARY KEY,
 	name varchar(25),
 	email varchar(30),
 	password varchar(30),
 	phone varchar(15)
-`); err != nil {
+)`); err != nil {
 		return err
 	}
 
-	if _, err := d.Exec(`CREATE TABLE IF NOT EXIST apartments(
+	if _, err := d.Exec(`CREATE TABLE IF NOT EXISTS apartments(
 	id SERIAL PRIMARY KEY,
 	title varchar(25),
 	address varchar,
@@ -40,7 +40,7 @@ func (d *DB) Initialize() (error) {
 	price numeric(7, 2),
 	rental bool,
 	availabe bool
-`); err != nil {
+)`); err != nil {
 		return err
 	}
 
