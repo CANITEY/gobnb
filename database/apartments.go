@@ -3,7 +3,7 @@ package database
 import "gobnb/models"
 
 func (d *DB) GetApartments() ([]models.Apartment, error) {
-	rows, err := d.Query("SELECT id, title, address, price, rental, availabe")
+	rows, err := d.Query("SELECT id, title, address, price, rental, availabe from apartments")
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (d *DB) GetApartments() ([]models.Apartment, error) {
 }
 
 func (d *DB) GetApartment(id int) (apartment models.Apartment, err error) {
-	row := d.QueryRow("SELECT id, title, address, description, price, rental, availabe where id=?", id)
+	row := d.QueryRow("SELECT id, title, address, description, price, rental, availabe from apartments where id=?", id)
 	err = row.Scan(
 		&apartment.Id,
 		&apartment.Title,
