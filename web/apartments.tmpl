@@ -10,6 +10,7 @@
       >
     </div>
   </div>
+  {{ range .Apartments }}
   <div class="card mb-3">
     <div class="row g-0">
       <div class="col-md-4">
@@ -17,69 +18,15 @@
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          <a hx-get="apartments/1" hx-target="#content" class="btn btn-success">View</a>
+          <h5 class="card-title">{{ .Title }}</h5>
+          <p class="card-text">Address: {{ .Address }}</p>
+          <p class="card-text"><small class="text-muted">Price: {{ .Price }}$</small></p>
+          <p class="card-text"><small class="text-muted">{{ if .Rental }}Available for rent{{ else }} Available for buying {{ end }}</small></p>
+          <a hx-get="apartments/{{.Id}}" hx-target="#content" class="btn btn-success">View</a>
         </div>
       </div>
     </div>
   </div>
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="..." class="img-fluid rounded-start" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="..." class="img-fluid rounded-start" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="..." class="img-fluid rounded-start" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="..." class="img-fluid rounded-start" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-      </div>
-    </div>
-  </div>
+  {{ end }}
 </div>
 {{ end }}

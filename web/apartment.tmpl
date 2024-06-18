@@ -4,12 +4,12 @@
         <img src="..." class="img-thumbnail rounded" >
     </div>
     <div class="col" >
-        <h1>Title</h1>
-        <address>address</address>
-        <p>description</p>
-        <p>Price: $1200</p>
-        <p>For rent <input type="checkbox" disabled checked></p>
-        <a class="btn btn-success">Call owner</a>
+        <h1>{{ .Title }}</h1>
+        <address>{{ .Address }}</address>
+        <p>{{ .Description }}</p>
+        <p>Price: {{ .Price }}$</p>
+        <p>For rent <input type="checkbox" disabled {{ if .Rental }} checked {{ end }}></p>
+        <button class="btn btn-success" {{if not .Available }} disabled {{ end }}>Call owner</button>
     </div>
 </div>
 {{ end }}
