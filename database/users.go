@@ -29,7 +29,7 @@ func (d *DB) CreateUser(user models.User) error {
 		return err
 	}
 
-	if _, err := d.Exec("INSERT INTO users(name, email, phone, password) VALUES(?, ?, ?, ?)", user.Name, user.Email, user.Phone, user.Password);
+	if _, err := d.Exec("INSERT INTO users(name, email, phone, password) VALUES($1, $2, $3, $4)", user.Name, user.Email, user.Phone, user.Password);
 
 	err != nil {
 		return err
