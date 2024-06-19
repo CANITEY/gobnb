@@ -1,31 +1,28 @@
 {{ define "login" }}
 <div class="m-3">
   <div id="registerForm" class="d-none" >
-    <form>
+    <form hx-post="/signup" hx-target="#msg" hx-target-50*="#registerForm" >
       <div class="mb-3">
         <label for="inputEmail" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+        <input type="email" name="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
       </div>
       <div class="mb-3">
         <label for="inputName" class="form-label">Full Name</label>
-        <input type="text" class="form-control" id="inputName">
+        <input type="text" name="name" class="form-control" id="inputName">
       </div>
       <div class="mb-3">
         <label for="inputPassword" class="form-label">Password</label>
-        <input type="password1" class="form-control" id="inputPassword">
+        <input type="password" name="password" class="form-control" id="inputPassword">
       </div>
       <div class="mb-3">
         <label for="inputPassword" class="form-label">Re-enter Password</label>
-        <input type="password2" class="form-control" id="inputPassword">
+        <input type="password" name="password2" class="form-control" id="inputPassword">
       </div>
-      <!-- <div class="mb-3 form-check">
-           <input type="checkbox" class="form-check-input" id="exampleCheck1">
-           <label class="form-check-label" for="exampleCheck1">Check me out</label>
-           </div> -->
       <button type="submit" class="btn btn-primary">Submit</button>
       <div class="btn btn-link" hx-on:click="toggleForm()">Login</div>
     </form>
+  <div id="msg" ></div>
   </div>
   <div id="loginForm" >
     <form>
@@ -38,10 +35,6 @@
         <label for="inputPassword" class="form-label">Password</label>
         <input type="password" class="form-control" id="inputPassword">
       </div>
-      <!-- <div class="mb-3 form-check">
-           <input type="checkbox" class="form-check-input" id="exampleCheck1">
-           <label class="form-check-label" for="exampleCheck1">Check me out</label>
-           </div> -->
       <button type="submit" class="btn btn-primary">Submit</button>
       <div class="btn btn-link" hx-on:click="toggleForm()" >Register</div>
     </form>
