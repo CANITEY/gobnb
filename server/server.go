@@ -43,7 +43,7 @@ func NewServer(address string) *Server {
 	}
 }
 
-func (s *Server) UseMiddleWare(middleware ...echo.MiddlewareFunc) {
+func (s *Server) useMiddleWare(middleware ...echo.MiddlewareFunc) {
 	s.S.Use(middleware...)
 }
 
@@ -53,13 +53,14 @@ func (s *Server) init() {
 	}
 	s.S.Renderer = t
 	s.S.Logger.SetLevel(log.INFO)
-	s.UseMiddleWare(echolog.Logger())
-	s.UseMiddleWare(middleware.Logger())
-	s.UseMiddleWare(middleware.Recover())
-	s.PublicRoutes()
+	s.useMiddleWare(echolog.Logger())
+	s.useMiddleWare(middleware.Logger())
+	s.useMiddleWare(middleware.Recover())
+	s.publicRoutes()
+	s.authRoutes()
 }
 
-func (s *Server) PublicRoutes() {
+func (s *Server) publicRoutes() {
 	s.S.GET("/", func(c echo.Context) error {
 		return c.Render(200, "base", nil)
 	})
