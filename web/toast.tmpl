@@ -1,0 +1,5 @@
+{{ define "toast" }}
+<div class="row d-flex justify-content-center">
+  <div id="toast" class="btn btn-{{ .Status }} p-2 col-6" hx-on:click="this.classList.toggle('d-none')">{{ .Msg }}</div>
+</div>
+{{ end }}
