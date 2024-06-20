@@ -25,8 +25,8 @@ func (d *DB) Initialize() (error) {
 	if _, err := d.Exec(`CREATE TABLE IF NOT EXISTS users(
 	id SERIAL PRIMARY KEY,
 	name varchar(25),
-	email varchar(30),
-	password varchar(30),
+	email varchar(30) UNIQUE,
+	password varchar(30) UNIQUE,
 	phone varchar(15)
 )`); err != nil {
 		return err
