@@ -24,9 +24,9 @@ func NewDB(username, password, hostname, databasename string) (*DB, error) {
 func (d *DB) Initialize() (error) {
 	if _, err := d.Exec(`CREATE TABLE IF NOT EXISTS users(
 	id SERIAL PRIMARY KEY,
-	name varchar(25),
-	email varchar(30) UNIQUE,
-	password varchar(30) UNIQUE,
+	name varchar(25) NOT NULL,
+	email varchar(30) UNIQUE NOT NULL,
+	password varchar(30) UNIQUE NOT NULL,
 	phone varchar(15)
 )`); err != nil {
 		return err
