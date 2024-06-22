@@ -1,7 +1,7 @@
 {{ define "login" }}
 <div class="m-3">
   <div id="registerForm" class="d-none" >
-    <form hx-post="/signup" hx-target="#msg" hx-target-50*="#registerForm" >
+    <form hx-post="/signup" hx-target="#msg" hx-target-5*="#msg" >
       <div class="mb-3">
         <label for="inputEmail" class="form-label">Email address</label>
         <input type="email" name="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
@@ -22,24 +22,24 @@
       <button type="submit" class="btn btn-primary">Submit</button>
       <div class="btn btn-link" hx-on:click="toggleForm()">Login</div>
     </form>
-  <div id="msg" ></div>
   </div>
   <div id="loginForm" >
-    <form>
+    <form hx-post="/login" hx-target="#content" hx-target-403="#msg" >
       <div class="mb-3">
         <label for="inputEmail" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+        <input type="email" name=email class="form-control" id="inputEmail" aria-describedby="emailHelp">
         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
       </div>
       <div class="mb-3">
         <label for="inputPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" id="inputPassword">
+        <input type="password" name="password" class="form-control" id="inputPassword">
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
       <div class="btn btn-link" hx-on:click="toggleForm()" >Register</div>
     </form>
   </div>
 </div>
+<div id="msg" ></div>
 <script>
 function toggleForm() {
     let registerForm = document.getElementById("registerForm")
