@@ -18,7 +18,6 @@ func (d *DB) GetUserInfo(id int) (models.User, error) {
 }
 
 func (d *DB) CreateUser(user models.User) error {
-
 	if err := validator.New(
 		validator.CommonPassword(fmt.Errorf("This password is common")),
 		validator.ContainsAtLeast("*,.!'\"+-@#$%^&(){}/", 1, fmt.Errorf("Password lack of special characters add atleast one of these *,.!'\"+-@#$%%^&(){}/")),
@@ -29,6 +28,7 @@ func (d *DB) CreateUser(user models.User) error {
 		return err
 	}
 
+	// FIXME: handle if user exists error
 	if _, err := d.Exec("INSERT INTO users(name, email, phone, password) VALUES($1, $2, $3, $4)", user.Name, user.Email, user.Phone, user.Password);
 
 	err != nil {
@@ -36,4 +36,16 @@ func (d *DB) CreateUser(user models.User) error {
 	}
 
 	return nil
+}
+
+func (d *DB) CheckUser(email, password string) (*models.User, error) {
+	user := &models.User{}
+	if err := d.QueryRow("select name, email, password, phone from users where email=$1", email).
+					Scan(&user.Name, &user.Email, &user.Password, &user.Phone);
+	err != nil {
+		return nil, err
+	}
+
+
+	return user, nil
 }
